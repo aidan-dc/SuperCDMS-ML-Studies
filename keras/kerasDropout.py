@@ -1,6 +1,9 @@
+#Optional OS settings
 import os
 os.environ['TF_XLA_FLAGS'] = ''
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '1'
+
+#Load in relevant libraries
 import numpy as np
 from numpy import loadtxt, expand_dims
 import matplotlib
@@ -9,21 +12,23 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import random
 
-# train_dataset = loadtxt('conv_training_reduced.csv',delimiter=',')
-# val_dataset = loadtxt('conv_validation_reduced.csv',delimiter=',')
-# test_dataset = loadtxt('conv_testing_reduced.csv',delimiter=',')
+#Select relevant datasets
 
-train_dataset = loadtxt('reduced_datasets/training_reduced.csv',delimiter=',')
-val_dataset = loadtxt('reduced_datasets/validation_reduced.csv',delimiter=',')
-test_dataset = loadtxt('reduced_datasets/testing_reduced.csv',delimiter=',')
+# train_dataset = loadtxt('../datasets/conv_training_reduced.csv',delimiter=',')
+# val_dataset = loadtxt('../datasets/conv_validation_reduced.csv',delimiter=',')
+# test_dataset = loadtxt('../datasets/conv_testing_reduced.csv',delimiter=',')
 
-# train_dataset = loadtxt('full_datasets/training_full.csv',delimiter=',')
-# val_dataset = loadtxt('full_datasets/validation_full.csv',delimiter=',')
-# test_dataset = loadtxt('full_datasets/testing_full.csv',delimiter=',')
+train_dataset = loadtxt('../datasets/reduced_datasets/training_reduced.csv',delimiter=',')
+val_dataset = loadtxt('../datasets/reduced_datasets/validation_reduced.csv',delimiter=',')
+test_dataset = loadtxt('../datasets/reduced_datasets/testing_reduced.csv',delimiter=',')
 
-# train_dataset = loadtxt('full_datasets_npa/training_full_npa.csv',delimiter=',')
-# val_dataset = loadtxt('full_datasets_npa/validation_full_npa.csv',delimiter=',')
-# test_dataset = loadtxt('full_datasets_npa/testing_full_npa.csv',delimiter=',')
+# train_dataset = loadtxt('../datasets/full_datasets/training_full.csv',delimiter=',')
+# val_dataset = loadtxt('../datasets/full_datasets/validation_full.csv',delimiter=',')
+# test_dataset = loadtxt('../datasets/full_datasets/testing_full.csv',delimiter=',')
+
+# train_dataset = loadtxt('../datasets/full_datasets_npa/training_full_npa.csv',delimiter=',')
+# val_dataset = loadtxt('../datasets/full_datasets_npa/validation_full_npa.csv',delimiter=',')
+# test_dataset = loadtxt('../datasets/full_datasets_npa/testing_full_npa.csv',delimiter=',')
 
 X = train_dataset[:,0:len(train_dataset[0])-1]
 y = train_dataset[:,len(train_dataset[0])-1:]
@@ -33,6 +38,8 @@ y_val = val_dataset[:,len(val_dataset[0])-1:]
 
 X_test = test_dataset[:,0:len(test_dataset[0])-1]
 y_test = test_dataset[:,len(test_dataset[0])-1:]
+
+#Reshaping for Conv1D input layer, leave commented if not using CNN
 
 # X = expand_dims(X,axis=2)
 # X_val = expand_dims(X_val,axis=2)
@@ -51,6 +58,7 @@ def return_hos_rmse(e):
 
 test_vals = []
 
+#Print model name and details for record keeping purposes
 print('Model Name: DNN2 batch128')
 print('Dataset: Reduced')
 print('Training Method: Dropout')
@@ -61,6 +69,8 @@ results = []
 
 min_rmse = 1000
 
+#Train 50 different iterations of the network, charting the RMSE for each iteration
+#Saving the best network based on testing dataset performance
 for i in range(50):
     #DNN-2
     #'''
